@@ -1,26 +1,32 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String name;
     private String email;
     private String phone;
     private String password;
+
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public User (){
 
     }
 
     public User(Long id, String name, String email, String phone, String password) {
-        Id = id;
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -28,11 +34,11 @@ public class User implements Serializable {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -66,7 +72,9 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    public List<Order> getOrders() {
+        return orders;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,5 +86,6 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
 
 }
