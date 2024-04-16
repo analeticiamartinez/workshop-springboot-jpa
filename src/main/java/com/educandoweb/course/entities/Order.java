@@ -4,13 +4,14 @@ import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
+@Data
 @Entity
 @Table(name = "tb_order")
 public class Order implements Serializable {
@@ -27,6 +28,8 @@ public class Order implements Serializable {
     private User client;
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
     public Order(){
 
     }
